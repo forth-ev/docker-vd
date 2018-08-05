@@ -4,6 +4,9 @@ MAINTAINER Ulrich Hoffmann <uho@xlerb.de>
 RUN ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
     && echo "Etc/UTC" > /etc/timezone \
     && apt-get update \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:lyx-devel/release \
+    && apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended \
                           texlive-lang-german texlive-lang-european texlive-lang-cyrillic  \
