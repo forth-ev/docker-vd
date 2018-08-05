@@ -1,0 +1,39 @@
+#!/bin/bash
+
+vd_home=`pwd`
+ip_addr=`ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2 | tail -1`
+docker_repo=forthev/vd
+
+if [ -z "$1" ]
+then
+echo "Usage: $0 [command]"
+echo
+echo "command can be:"
+echo
+echo "  - clone Vierte Dimension repository to current directory:"
+echo "      fossil clone https://$USER@fossil.forth-ev.de/vd-JJJJ-0x vd-JJJJ-0x.fossil"
+echo   
+echo "  - expand fossil repository to current directory:"
+echo "      fossil open vd-JJJJ-0x.fossil"
+echo 
+echo "  - other fossil command"
+echo  
+echo "  - typeset Vierte Dimension issue:"
+echo "      make"
+echo
+echo "  - preview Vierte Dimension issue:"
+echo "      mupdf 4dJJJJ-0x.pdf"
+echo
+echo "  - run Lyx editor:"
+echo "      lyx [filename]"
+echo 
+echo "Graphical applications require an X-Server running at DISPLAY=$ip_addr:0"
+echo
+exit
+fi
+
+set -x
+docker run -i -t \
+  -e USER=$USER \
+  -e DISPLAY=$ip_addr:0 \
+  -v "$vd_home":/VierteDimension --rm $docker_repo $*
