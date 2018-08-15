@@ -1,7 +1,7 @@
 #!/bin/bash
 
 vd_home=`pwd`
-ip_addr=`ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2 | tail -1`
+ip_addr=`docker network inspect bridge --format='{{json .IPAM.Config}}' | sed -e 's/.*"Gateway":"\([^"]*\)".*}]/\\1/'`
 docker_repo=forthev/vd
 
 if [ -z "$1" ]
