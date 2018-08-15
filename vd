@@ -1,8 +1,20 @@
 #!/bin/bash
 
 vd_home=`pwd`
-ip_addr=`docker network inspect bridge --format='{{json .IPAM.Config}}' | sed -e 's/.*"Gateway":"\([^"]*\)".*}]/\\1/'`
 docker_repo=forthev/vd
+
+os_type=`uname`
+
+if [ "$os_type" == "Darwin" ]; then
+for i in en0 en1 en2; do
+  ip_addr=${ip_addr:-`/sbin/ifconfig $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
+done
+else
+for i in enp5s0 eth0 eth1 eth2 wlan0 wlan1 wlan2 ens33; do
+  ip_addr=${ip_addr:-`/sbin/ip addr show $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
+done
+fi
+
 
 if [ -z "$1" ]
 then
@@ -32,8 +44,11 @@ echo
 exit
 fi
 
+xhost +
 set -x
 docker run -i -t \
   -e USER=$USER \
   -e DISPLAY=$ip_addr:0 \
+  -p 8080:8080 \
   -v "$vd_home":/VierteDimension --rm $docker_repo $*
+xhost -
