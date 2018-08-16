@@ -13,6 +13,8 @@ RUN ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
                           cm-super xzdec lyx make fossil mupdf \
     && rm -rf /var/lib/apt/lists/*
 
+EXPOSE 8080
+
 VOLUME /VierteDimension
 WORKDIR /VierteDimension
 
