@@ -1,6 +1,8 @@
 # Docker VD
 ## Typesetting the *Vierte Dimension* Forth-Magazine
 
+Updated to use TeX-Live 2019
+
 This a Docker setup for typesetting the [Vierte Dimension](https://wiki.forth-ev.de/doku.php/vd-archiv) magazine of [Forth Gesellschaft eV](https://www.forth-ev.de).
 It includes
 
@@ -52,7 +54,7 @@ Requires X-Server running on host.
 
 1. Clone this repository `git clone https://github.com/forth-ev/docker-vd.git`.
 2. Add the `vd` - script to your PATH.
-3. You're done.
+3. You're done. (The docker image forthev/vd:latest downloads on first use.)
 
 ### Build the docker image yourself
 

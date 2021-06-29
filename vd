@@ -1,12 +1,12 @@
 #!/bin/bash
 
 vd_home=`pwd`
-docker_image=forthev/vd
+docker_image=forthev/vd:focal-texlive2019
 
 os_type=`uname`
 
 if [ "$os_type" == "Darwin" ]; then
-for i in en0 en1 en2; do
+for i in en0 en1 en2 en3 en4 en5 en6 en7 en8; do
   ip_addr=${ip_addr:-`/sbin/ifconfig $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
 done
 else
@@ -23,7 +23,7 @@ echo
 echo "command can be:"
 echo
 echo "  - clone Vierte Dimension repository to current directory:"
-echo "      fossil clone https://$USER@fossil.forth-ev.de/vd-JJJJ-0x vd-JJJJ-0x.fossil"
+echo '      fossil clone https://$USER@fossil.forth-ev.de/vd-JJJJ-0x vd-JJJJ-0x.fossil'
 echo   
 echo "  - expand fossil repository to current directory:"
 echo "      fossil open vd-JJJJ-0x.fossil"
