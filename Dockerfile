@@ -18,6 +18,7 @@ RUN ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
         texlive-latex-recommended-doc texlive-pictures texlive-plain-generic \
         texlive-pstricks texlive-pstricks-doc \
         xzdec lyx make fossil mupdf \
+    && (lyx -batch -x reconfigure || echo "alles ok") \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8080
