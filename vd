@@ -1,19 +1,23 @@
 #!/bin/bash
 
+#
+# Modified by wost 2021-08-20
+#
+
 vd_home=`pwd`
-docker_image=forthev/vd:focal-texlive2019
+docker_image=forthev/vd:latest
 
-os_type=`uname`
+# os_type=`uname`
 
-if [ "$os_type" == "Darwin" ]; then
-for i in en0 en1 en2 en3 en4 en5 en6 en7 en8; do
-  ip_addr=${ip_addr:-`/sbin/ifconfig $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
-done
-else
-for i in enp5s0 eth0 eth1 eth2 wlan0 wlan1 wlan2 ens33; do
-  ip_addr=${ip_addr:-`/sbin/ip addr show $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
-done
-fi
+# if [ "$os_type" == "Darwin" ]; then
+# for i in en0 en1 en2 en3 en4 en5 en6 en7 en8; do
+#   ip_addr=${ip_addr:-`/sbin/ifconfig $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
+# done
+# else
+# for i in wlp1s0 enp0s31f6 enp5s0 eth0 eth1 eth2 wlan0 wlan1 wlan2 ens33; do
+#   ip_addr=${ip_addr:-`/sbin/ip addr show $i | sed -ne '/inet/ s/.*inet \([0-9.]*\).*/\\1/p'`}
+# done
+# fi
 
 
 if [ -z "$1" ]
@@ -39,7 +43,8 @@ echo
 echo "  - run Lyx editor:"
 echo "      lyx [filename]"
 echo 
-echo "Graphical applications require an X-Server running at DISPLAY=$ip_addr:0"
+# echo "Graphical applications require an X-Server running at DISPLAY=$ip_addr:0"
+echo "Graphical applications require an X-Server running"
 echo
 exit
 fi
@@ -48,8 +53,25 @@ xhost +
 set -x
 docker run -i -t \
   -e USER=$USER \
-  -e DISPLAY=$ip_addr:0 \
+  -e DISPLAY=$DISPLAY \
   -p 8080:8080 \
   --name docker-vd \
-  -v "$vd_home":/VierteDimension --rm $docker_image $*
+  -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+  -v "$vd_home":/VierteDimension \
+  --rm \
+  $docker_image $*
 xhost -
+
+
+# Original:
+# =========
+#
+# xhost +
+# set -x
+# docker run -i -t \
+#   -e USER=$USER \
+#   -e DISPLAY=$ip_addr:0 \
+#   -p 8080:8080 \
+#   --name docker-vd \
+#   -v "$vd_home":/VierteDimension --rm $docker_image $*
+# xhost -
