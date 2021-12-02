@@ -26,7 +26,10 @@ jobs:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
           TAG: ${{env.CI_REGISTRY}}/forthev/vd:${{github.sha}}
+          LATEST: ${{env.CI_REGISTRY}}/forthev/vd:latest
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD $CI_REGISTRY
           docker build . -t $TAG
           docker push $TAG
+          docker tag $TAG $LATEST
+          docker push $LATEST
