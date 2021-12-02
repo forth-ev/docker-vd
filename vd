@@ -49,7 +49,6 @@ echo
 exit
 fi
 
-xhost +
 set -x
 docker run -i -t \
   -e USER=$USER \
@@ -58,9 +57,9 @@ docker run -i -t \
   --name docker-vd \
   -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
   -v "$vd_home":/VierteDimension \
+  -v /dev/dri:/dev/dri -v $XAUTHORITY:/tmp/.Xauthority \
   --rm \
   $docker_image $*
-xhost -
 
 
 # Original:
