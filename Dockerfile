@@ -1,6 +1,8 @@
 #  Ubuntu 20.04 LTS Focal Fossa installs TexLive 2019
 FROM ubuntu:focal
 MAINTAINER Ulrich Hoffmann <uho@xlerb.de>
+ENV XAUTHORITY /tmp/.Xauthority
+ENV LANG de_DE.UTF-8
 
 RUN ln -snf /usr/share/zoneinfo/Etc/UTC /etc/localtime \
     && echo "Etc/UTC" > /etc/timezone \
